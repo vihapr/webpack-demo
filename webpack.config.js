@@ -6,7 +6,7 @@ const PATHS = {
   target: path.join(__dirname, 'dist'),
 }
 
-module.exports = {
+const commonConfig = {
   entry: PATHS.source + '/index.js',
   output: {
     filename: 'main.js',
@@ -27,5 +27,18 @@ module.exports = {
       }
     ]
   }
-
 };
+
+const devConfig = {
+  devServer: {
+    stats: 'errors-only',
+    port: 9000
+  }
+}
+
+module.exports = function(env){
+  if (env === 'production')
+    return commonConfig;
+  if (env === 'development')
+    return Object.assign({}, commonConfig, devConfig);
+}
